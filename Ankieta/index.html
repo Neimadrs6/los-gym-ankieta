@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ŁOŚ Workout - Formularz Zgłoszeniowy</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #121315;
+      color: #e0e0e0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 720px;
+      margin: auto;
+      background: #1e2024;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      border: 1px solid #33373d;
+    }
+    .header-box {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .logo-img {
+      max-width: 180px;
+      height: auto;
+      display: block;
+      margin: 0 auto 15px auto;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(211, 126, 52, 0.2);
+    }
+    h1 {
+      color: #f39c12;
+      margin: 0 0 8px 0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    p.intro {
+      color: #a0a6b1;
+      margin: 0;
+      font-size: 15px;
+    }
+    fieldset {
+      border: 1px solid #3a3f47;
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      background: #25282e;
+    }
+    legend {
+      font-weight: bold;
+      color: #e67e22;
+      padding: 0 10px;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #cfd4dc;
+      font-size: 14px;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #444a54;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+      background-color: #17191c;
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #e67e22;
+    }
+
+    /* Style wizualne dla błędnych pól (walidacja) */
+    .input-error {
+      border-color: #e74c3c !important;
+      box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
+    }
+    .error-msg {
+      display: none;
+      color: #e74c3c;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 75px;
+    }
+
+    /* Wskaźnik BMI */
+    .bmi-container {
+      margin-top: 10px;
+      padding: 12px;
+      background: #17191c;
+      border-radius: 6px;
+      border: 1px solid #33373d;
+    }
+    .bmi-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    .bmi-label {
+      color: #a0a6b1;
+    }
+    .bmi-status {
+      color: #f39c12;
+    }
+    .bmi-track {
+      position: relative;
+      height: 12px;
+      background: linear-gradient(to right, #3498db 0%, #2ecc71 35%, #f1c40f 65%, #e74c3c 100%);
+      border-radius: 6px;
+      overflow: visible;
+    }
+    .bmi-pointer {
+      position: absolute;
+      top: -4px;
+      left: 0%;
+      width: 6px;
+      height: 20px;
+      background-color: #ffffff;
+      border: 1px solid #000;
+      border-radius: 3px;
+      transform: translateX(-50%);
+      transition: left 0.3s ease;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Przycisk wysyłki */
+    .btn-main {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #d35400, #e67e22);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s;
+      margin-top: 10px;
+    }
+    .btn-main:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header-box">
+    <img src="logo.jpg" alt="Logo ŁOŚ GYM" class="logo-img">
+    <h1>ŁOŚ Workout</h1>
+    <p class="intro">Wypełnij ankietę wstępną, a ja przygotujemy dla Ciebie indywidualny plan.</p>
+  </div>
+
+  <form id="coachForm" action="https://formsubmit.co/damian.los@hotmail.com" method="POST">
+    
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" id="emailSubject" name="_subject" value="ŁOŚ GYM - Nowe zgłoszenie podopiecznego">
+    <input type="hidden" id="hiddenReport" name="RAPORT_METABOLICZNY_DLA_TRENERA">
+
+    <!-- 1. Dane podstawowe i parametry -->
+    <fieldset>
+      <legend>1. Dane Podstawowe i Kontakt</legend>
+      <div class="form-group">
+        <label for="fullName">Imię i Nazwisko:</label>
+        <input type="text" id="fullName" name="Imie_i_Nazwisko" required placeholder="np. Jan Kowalski">
+      </div>
+
+      <!-- Rozdzielone i zwalidowane pola kontaktowe -->
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="phone">Numer telefonu:</label>
+          <input type="tel" id="phone" name="Telefon" required placeholder="np. 500 123 456" maxlength="11">
+          <div id="phoneError" class="error-msg">Wprowadź poprawny 9-cyfrowy numer telefonu.</div>
+        </div>
+        <div class="form-group">
+          <label for="clientEmail">Adres E-mail:</label>
+          <input type="email" id="clientEmail" name="Email_klienta" required placeholder="np. jan.kowalski@poczta.pl">
+          <div id="emailError" class="error-msg">Wprowadź prawidłowy adres e-mail (np. imie@domena.pl).</div>
+        </div>
+      </div>
+      
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="gender">Płeć:</label>
+          <select id="gender" name="Plec" required>
+            <option value="Mężczyzna">Mężczyzna</option>
+            <option value="Kobieta">Kobieta</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="age">Wiek (lata):</label>
+          <input type="number" id="age" name="Wiek" min="12" max="99" required placeholder="np. 28">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="weight">Aktualna waga (kg):</label>
+          <input type="number" id="weight" name="Waga_kg" step="0.1" min="30" max="250" required placeholder="np. 84">
+        </div>
+        <div class="form-group">
+          <label for="height">Wzrost (cm):</label>
+          <input type="number" id="height" name="Wzrost_cm" min="100" max="250" required placeholder="np. 182">
+        </div>
+      </div>
+
+      <!-- Wskaźnik BMI -->
+      <div class="bmi-container">
+        <div class="bmi-header">
+          <span class="bmi-label">Wskaźnik BMI:</span>
+          <span id="bmiStatus" class="bmi-status">Wpisz wagę i wzrost</span>
+        </div>
+        <div class="bmi-track">
+          <div id="bmiPointer" class="bmi-pointer" style="left: 0%;"></div>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 15px;">
+        <label for="mainGoal">Główny cel:</label>
+        <select id="mainGoal" name="Cel_glowny">
+          <option value="Redukcja tkanki tłuszczowej">Redukcja tkanki tłuszczowej</option>
+          <option value="Budowa masy mięśniowej / siły">Budowa masy mięśniowej / siły</option>
+          <option value="Poprawa ogólnej kondycji i sprawności">Poprawa ogólnej kondycji i sprawności</option>
+        </select>
+      </div>
+    </fieldset>
+
+    <!-- 2. Aktywność fizyczna i zdrowie -->
+    <fieldset>
+      <legend>2. Aktywność Fizyczna i Zdrowie</legend>
+      <div class="form-group">
+        <label for="jobType">Charakter codziennej pracy:</label>
+        <select id="jobType" name="Charakter_pracy">
+          <option value="Siedząca (biurko, komputer, kierowca)">Siedząca (biurko, komputer, kierowca)</option>
+          <option value="W ruchu / stojąca (umiarkowana aktywność)">W ruchu / stojąca (umiarkowana aktywność)</option>
+          <option value="Ciężka praca fizyczna">Ciężka praca fizyczna</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="frequency">Liczba treningów w tygodniu:</label>
+        <select id="frequency" name="Treningi_w_tygodniu">
+          <option value="2 razy w tygodniu">2 razy w tygodniu</option>
+          <option value="3 razy w tygodniu">3 razy w tygodniu</option>
+          <option value="4 lub więcej razy w tygodniu">4 lub więcej razy w tygodniu</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="experience">Doświadczenie z treningiem:</label>
+        <textarea id="experience" name="Doswiadczenie" placeholder="Czy ćwiczyłeś/aś wcześniej?"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="health">Kontuzje, bóle lub choroby (przebyte lub trwające):</label>
+        <textarea id="health" name="Zdrowie_i_kontuzje" placeholder="Wpisz ewentualne dolegliwości lub wpisz: brak"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- 3. Odżywianie -->
+    <fieldset>
+      <legend>3. Nawyki Żywieniowe</legend>
+      <div class="form-group">
+        <label for="mealsPerDay">Preferowana liczba posiłków w ciągu dnia:</label>
+        <select id="mealsPerDay" name="Liczba_posilkow">
+          <option value="3 posiłki">3 posiłki</option>
+          <option value="4 posiłki">4 posiłki</option>
+          <option value="5 posiłków">5 posiłków</option>
+          <option value="Bez znaczenia / Elastycznie">Bez znaczenia / Elastycznie</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="dietRestrictions">Alergie lub wykluczenia pokarmowe:</label>
+        <textarea id="dietRestrictions" name="Alergie_wykluczenia" placeholder="np. bez laktozy, bez glutenu, wegetarianizm"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="dislikedFoods">Produkty nielubiane:</label>
+        <textarea id="dislikedFoods" name="Produkty_nielubiane" placeholder="np. ryby, szpinak, wątróbka"></textarea>
+      </div>
+    </fieldset>
+
+    <button type="submit" id="submitBtn" class="btn-main">Wyślij ankietę do trenera</button>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('coachForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const hiddenReport = document.getElementById('hiddenReport');
+  const emailSubject = document.getElementById('emailSubject');
+
+  const phoneInput = document.getElementById('phone');
+  const phoneError = document.getElementById('phoneError');
+  const emailInput = document.getElementById('clientEmail');
+  const emailError = document.getElementById('emailError');
+
+  const weightInput = document.getElementById('weight');
+  const heightInput = document.getElementById('height');
+  const bmiStatus = document.getElementById('bmiStatus');
+  const bmiPointer = document.getElementById('bmiPointer');
+
+  let currentBMI = 0;
+
+  // 1. Automatyczne formatowanie telefonu w układzie XXX XXX XXX
+  phoneInput.addEventListener('input', function(e) {
+    // Usuwamy wszystkie znaki niebędące cyframi
+    let digits = e.target.value.replace(/\D/g, '');
+    
+    // Ograniczamy do 9 cyfr
+    if (digits.length > 9) {
+      digits = digits.substring(0, 9);
+    }
+
+    // Dodajemy spacje co 3 cyfry
+    let formatted = '';
+    for (let i = 0; i < digits.length; i++) {
+      if (i > 0 && i % 3 === 0) {
+        formatted += ' ';
+      }
+      formatted += digits[i];
+    }
+    e.target.value = formatted;
+
+    // Reset błędu w trakcie poprawiania
+    phoneInput.classList.remove('input-error');
+    phoneError.style.display = 'none';
+  });
+
+  // Reset błędu e-maila w trakcie pisania
+  emailInput.addEventListener('input', function() {
+    emailInput.classList.remove('input-error');
+    emailError.style.display = 'none';
+  });
+
+  // 2. Obliczanie BMI na żywo
+  function updateBMICalculation() {
+    const w = parseFloat(weightInput.value);
+    const hCm = parseFloat(heightInput.value);
+
+    if (w > 0 && hCm > 0) {
+      const hM = hCm / 100;
+      currentBMI = (w / (hM * hM)).toFixed(1);
+
+      let category = "";
+      if (currentBMI < 18.5) {
+        category = "Niedowaga";
+      } else if (currentBMI <= 24.9) {
+        category = "Waga w normie";
+      } else if (currentBMI <= 29.9) {
+        category = "Nadwaga";
+      } else {
+        category = "Otyłość";
+      }
+
+      bmiStatus.textContent = `${currentBMI} (${category})`;
+
+      let percentage = ((currentBMI - 15) / (35 - 15)) * 100;
+      if (percentage < 0) percentage = 0;
+      if (percentage > 100) percentage = 100;
+
+      bmiPointer.style.left = percentage + "%";
+    } else {
+      bmiStatus.textContent = "Wpisz wagę i wzrost";
+      bmiPointer.style.left = "0%";
+    }
+  }
+
+  weightInput.addEventListener('input', updateBMICalculation);
+  heightInput.addEventListener('input', updateBMICalculation);
+
+  // 3. Walidacja przed wysłaniem i kalkulacja raportu
+  form.addEventListener('submit', function(event) {
+    let isValid = true;
+
+    // Sprawdzenie telefonu (dokładnie 9 cyfr po usunięciu spacji)
+    const rawPhone = phoneInput.value.replace(/\s+/g, '');
+    if (rawPhone.length !== 9) {
+      phoneInput.classList.add('input-error');
+      phoneError.style.display = 'block';
+      phoneInput.focus();
+      isValid = false;
+    }
+
+    // Sprawdzenie e-maila za pomocą wzorca RegEx
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value.trim())) {
+      emailInput.classList.add('input-error');
+      emailError.style.display = 'block';
+      if (isValid) emailInput.focus();
+      isValid = false;
+    }
+
+    // Zatrzymujemy wysyłkę, jeśli walidacja nie przeszła
+    if (!isValid) {
+      event.preventDefault();
+      return;
+    }
+
+    // Pobranie danych do wyliczeń
+    const clientName = document.getElementById('fullName').value.trim();
+    const gender = document.getElementById('gender').value;
+    const age = parseInt(document.getElementById('age').value);
+    const weight = parseFloat(document.getElementById('weight').value);
+    const height = parseFloat(document.getElementById('height').value);
+    const mainGoal = document.getElementById('mainGoal').value;
+
+    const jobTypeText = document.getElementById('jobType').value;
+    const frequencyText = document.getElementById('frequency').value;
+
+    let basePAL = 1.2;
+    if (jobTypeText.includes("W ruchu")) basePAL = 1.4;
+    else if (jobTypeText.includes("Ciężka praca")) basePAL = 1.6;
+
+    let trainingPAL = 0.1;
+    if (frequencyText.includes("3 razy")) trainingPAL = 0.2;
+    else if (frequencyText.includes("4 lub więcej")) trainingPAL = 0.3;
+
+    const totalPAL = basePAL + trainingPAL;
+
+    // BMR (Mifflin-St Jeor)
+    let bmr = (gender === 'Mężczyzna')
+      ? (10 * weight) + (6.25 * height) - (5 * age) + 5
+      : (10 * weight) + (6.25 * height) - (5 * age) - 161;
+
+    const tdee = Math.round(bmr * totalPAL);
+
+    let targetCalories = tdee;
+    if (mainGoal === "Redukcja tkanki tłuszczowej") targetCalories = tdee - 400;
+    else if (mainGoal === "Budowa masy mięśniowej / siły") targetCalories = tdee + 300;
+
+    const proteinGrams = Math.round(weight * 2.0);
+    const proteinCalories = proteinGrams * 4;
+
+    const fatCalories = targetCalories * 0.25;
+    const fatGrams = Math.round(fatCalories / 9);
+
+    const carbCalories = targetCalories - (proteinCalories + fatCalories);
+    const carbGrams = Math.round(carbCalories / 4);
+
+    const coachReportText = 
+`========================================
+     ŁOŚ GYM - POUFNY RAPORT TRENERA
+========================================
+DANE I KONTAKT:
+- Klient: ${clientName} (${gender}, ${age} lat)
+- Telefon: ${phoneInput.value}
+- E-mail: ${emailInput.value}
+- Waga: ${weight} kg | Wzrost: ${height} cm
+- BMI: ${currentBMI || 'Brak danych'}
+- Cel: ${mainGoal}
+
+STYL ŻYCIA I AKTYWNOŚĆ:
+- Charakter pracy: ${jobTypeText}
+- Treningi: ${frequencyText}
+
+WYLICZENIA KALORYCZNE:
+- BMR (Podstawowa przemiana): ${Math.round(bmr)} kcal
+- TDEE (Zapotrzebowanie zerowe): ${tdee} kcal
+- DOCELOWY BILANS: ${Math.round(targetCalories)} kcal / dzień
+
+ROZPISKA MAKROSKŁADNIKÓW:
+- Białko:       ${proteinGrams} g (~${proteinCalories} kcal) [2.0 g/kg]
+- Tłuszcze:     ${fatGrams} g (~${Math.round(fatCalories)} kcal) [25%]
+- Węglowodany:  ${carbGrams} g (~${Math.round(carbCalories)} kcal)
+========================================`;
+
+    hiddenReport.value = coachReportText;
+    emailSubject.value = `ŁOŚ GYM - Nowe zgłoszenie: ${clientName}`;
+
+    submitBtn.textContent = "Wysyłanie ankiety...";
+  });
+</script>
+
+</body>
+</html>
